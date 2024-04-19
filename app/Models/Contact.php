@@ -1,0 +1,37 @@
+<?php
+require_once 'Database.php';
+
+Class Contact{ 
+    static function select(){
+        global $conn;
+        $sql = 'SELECT * FROM contacts';
+        $result = $conn->query($sql);
+        $arr = array();
+
+        if ($result->num_rows > 0) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                foreach ($row as $key => $value) {
+                    $arr[$key][] = $value;
+                }
+            }
+        }
+        return $arr;
+    }
+    static function insert($id, $phone_number, $owner){
+        global $conn;
+        $sql = 'INSERT INTO contacts(id, phone, owner) VALUES (?, ?, ?)';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('sss', $id, $phone_number, $owner);
+        $stmt->execute();
+        $result = $stmt->affected_rows > 0 ? true : false;
+        return $result;
+    }
+    static function update(){
+  
+    }
+    static function delete(){
+  
+    }
+  }
+
+?>
