@@ -23,6 +23,8 @@ Class Contact{
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('issi', $id, $phone_number, $owner, $users_id);
         $stmt->execute();
+        $result = $stmt->affected_rows > 0 ? true : false;
+        // return $result;
     }
     static function update(){
   

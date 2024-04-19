@@ -6,20 +6,6 @@ if (isset($_POST['submit'])) {
     $owner = $_POST['owner'];
     $users_id = ''; //Tidak diisi karena Nanti digunakan untuk view masing-masing user.
     Contact::insert($id, $phone_number, $owner, $users_id);
-  
-    $result = $stmt->affected_rows > 0 ? true : false;
-    if ($result == true) {
-      echo "<script>
-        alert('Data gagal ditambahkan!');
-        document.location.href = 'index.php';
-        </script>";
-    } 
-    else {
-      echo "<script>
-        alert('Data berhasil ditambahkan!');
-        document.location.href = 'index.php';
-        </script>";
-    }
   }
 ?>
 
