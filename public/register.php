@@ -23,7 +23,7 @@
             <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
           </div>
           <div class="mt-2">
-            <input id="text" name="name" type="name" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#8a4647] focus:ring-2 focus:ring-inset focus:ring-[#8a4647] sm:text-sm sm:leading-6">
+            <input id="name" name="name" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#8a4647] focus:ring-2 focus:ring-inset focus:ring-[#8a4647] sm:text-sm sm:leading-6">
           </div>
         </div>
 
@@ -34,7 +34,6 @@
           </div>
         </div>
         
-
         <div>
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>

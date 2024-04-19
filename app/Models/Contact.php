@@ -17,14 +17,12 @@ Class Contact{
         }
         return $arr;
     }
-    static function insert($id, $phone_number, $owner){
+    static function insert($id, $phone_number, $owner, $users_id){
         global $conn;
-        $sql = 'INSERT INTO contacts(id, phone, owner) VALUES (?, ?, ?)';
+        $sql = 'INSERT INTO contacts(id, phone_number, owner, users_id) VALUES (?, ?, ?, ?)';
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sss', $id, $phone_number, $owner);
+        $stmt->bind_param('issi', $id, $phone_number, $owner, $users_id);
         $stmt->execute();
-        $result = $stmt->affected_rows > 0 ? true : false;
-        return $result;
     }
     static function update(){
   

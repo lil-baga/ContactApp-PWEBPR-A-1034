@@ -1,6 +1,5 @@
 <?php
 require_once 'C:\laragon\www\ContactApp-PWEBPR-A-1034\app\Models\Contact.php';
-// var_dump($arr);
 $arr = Contact::select();
 ?>
 
@@ -27,7 +26,7 @@ $arr = Contact::select();
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
               <path fill-rule="evenodd" d="M6.912 3a3 3 0 00-2.868 2.118l-2.411 7.838a3 3 0 00-.133.882V18a3 3 0 003 3h15a3 3 0 003-3v-4.162c0-.299-.045-.596-.133-.882l-2.412-7.838A3 3 0 0017.088 3H6.912zm13.823 9.75l-2.213-7.191A1.5 1.5 0 0017.088 4.5H6.912a1.5 1.5 0 00-1.434 1.059L3.265 12.75H6.11a3 3 0 012.684 1.658l.256.513a1.5 1.5 0 001.342.829h3.218a1.5 1.5 0 001.342-.83l.256-.512a3 3 0 012.684-1.658h2.844z" clip-rule="evenodd"></path>
             </svg>
-          </div>Contact Lists <div class="grid place-items-center ml-auto justify-self-end">
+          </div><a href="index.php">Contact Lists</a><div class="grid place-items-center ml-auto justify-self-end">
           </div>
         </div>
         <div role="button" tabindex="0" class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-[#8a4647] focus:bg-[#8a4647] active:bg-[#8a4647] hover:text-white focus:text-white active:text-white outline-none">
@@ -75,7 +74,7 @@ $arr = Contact::select();
             <tr>
               <td class="p-3 border-b border-gray-200">
                 <div class="flex items-center justify-around">
-                  <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $idx+1 ?></p>
+                  <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $idx + 1 ?></p>
                 </div>
               </td>
               <td class="p-3 border-b border-gray-200">
@@ -109,11 +108,13 @@ $arr = Contact::select();
           ?>
         </tbody>
       </table>
-      <div class="flex items-center justify-center">
-        <button class="bg-green-500 flex mt-6 hover:bg-green-700 text-white text-sm font-medium py-1 px-2 rounded">
-          Add Contact
-        </button>
-      </div>
+      <form action="insert.php" method="POST">
+        <div class="flex items-center justify-center">
+          <button class="bg-green-500 flex mt-6 hover:bg-green-700 text-white text-sm font-medium py-1 px-2 rounded">
+            Add Contact
+          </button>
+        </div>
+      </form>
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
