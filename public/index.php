@@ -108,7 +108,7 @@ require_once 'C:\laragon\www\ContactApp-PWEBPR-A-1034\app\Models\Database.php';
               </td>
             </tr>
           <?php
-            }
+          }
           ?>
         </tbody>
       </table>
