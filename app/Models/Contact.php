@@ -1,8 +1,10 @@
 <?php
 require_once 'Database.php';
 
-Class Contact{ 
-    static function select(){
+class Contact
+{
+    static function select()
+    {
         global $conn;
         $sql = 'SELECT * FROM contacts';
         $result = $conn->query($sql);
@@ -17,21 +19,58 @@ Class Contact{
         }
         return $arr;
     }
-    static function insert($id, $phone_number, $owner, $users_id){
+    static function insert($id, $phone_number, $owner, $users_id)
+    {
         global $conn;
         $sql = 'INSERT INTO contacts(id, phone_number, owner, users_id) VALUES (?, ?, ?, ?)';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('issi', $id, $phone_number, $owner, $users_id);
         $stmt->execute();
         $result = $stmt->affected_rows > 0 ? true : false;
-        // return $result;
+        if ($result == true) {
+            header("Location: index.php");
+        } else {
+            $error = "Error deleting record: " . $conn->error;
+            header("insert.php");
+            return $error;
+        }
     }
-    static function update(){
-  
+    static function update()
+    {
     }
-    static function delete(){
-  
-    }
-  }
+    static function delete($id)
+    {
+        global $conn;
+        $sql = "DELETE FROM contacts WHERE id = ?";
+        $result = $conn->prepare($sql);
+        $result->bind_param('i', $id);
 
-?>
+        if ($result->execute()) {
+            $result->close(); // Close the prepared statement
+            header("Location: index.php");
+            exit();
+            // return "Record deleted successfully";
+        } else {
+            $error = "Error deleting record: " . $conn->error;
+            $result->close(); // Close the prepared statement
+            return $error;
+        }
+    }
+    static function reset($id)
+    {
+        global $conn;
+        $sql = "ALTER TABLE contacts AUTO_INCREMENT = ?";
+        $result = $conn->prepare($sql);
+        $result->bind_param('i', $id);
+        if ($result->execute()) {
+            $result->close(); // Close the prepared statement
+            header("Location: index.php");
+            exit();
+            // return "Record deleted successfully";
+        } else {
+            $error = "Error deleting record: " . $conn->error;
+            $result->close(); // Close the prepared statement
+            return $error;
+        }
+    }
+}

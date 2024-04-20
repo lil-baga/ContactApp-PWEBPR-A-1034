@@ -1,6 +1,21 @@
 <?php
-require_once 'C:\laragon\www\ContactApp-PWEBPR-A-1034\app\Models\Contact.php';
+require_once __DIR__ . '/../app/Models/Contact.php';
 $arr = Contact::select();
+if (isset($_POST['submit'])) {
+  $id = ''; //Tidak diisi karena Auto_Increment.
+  $phone_number = $_POST['phone_number'];
+  $owner = $_POST['owner'];
+  $users_id = ''; //Tidak diisi karena Nanti digunakan untuk view masing-masing user.
+  $result = Contact::insert($id, $phone_number, $owner, $users_id);
+  echo $result;
+}
+
+if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
+  $id = $_GET['id'];
+
+  $result = Contact::delete($id);
+  echo $result;
+}
 ?>
 
 <!DOCTYPE html>
@@ -10,6 +25,7 @@ $arr = Contact::select();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
   <title>Contact App</title>
 </head>
 
@@ -26,7 +42,8 @@ $arr = Contact::select();
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
               <path fill-rule="evenodd" d="M6.912 3a3 3 0 00-2.868 2.118l-2.411 7.838a3 3 0 00-.133.882V18a3 3 0 003 3h15a3 3 0 003-3v-4.162c0-.299-.045-.596-.133-.882l-2.412-7.838A3 3 0 0017.088 3H6.912zm13.823 9.75l-2.213-7.191A1.5 1.5 0 0017.088 4.5H6.912a1.5 1.5 0 00-1.434 1.059L3.265 12.75H6.11a3 3 0 012.684 1.658l.256.513a1.5 1.5 0 001.342.829h3.218a1.5 1.5 0 001.342-.83l.256-.512a3 3 0 012.684-1.658h2.844z" clip-rule="evenodd"></path>
             </svg>
-          </div><a href="index.php">Contact Lists</a><div class="grid place-items-center ml-auto justify-self-end">
+          </div><a href="index.php">Contact Lists</a>
+          <div class="grid place-items-center ml-auto justify-self-end">
           </div>
         </div>
         <div role="button" tabindex="0" class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-[#8a4647] focus:bg-[#8a4647] active:bg-[#8a4647] hover:text-white focus:text-white active:text-white outline-none">
@@ -68,45 +85,77 @@ $arr = Contact::select();
           </tr>
         </thead>
         <tbody>
-          <?php
-          for ($idx = 0; $idx < count($arr['id']); $idx++) {
+          <?php if (!empty($arr['id'])) {
+            foreach ($arr['id'] as $idx => $id) {
           ?>
-            <tr>
-              <td class="p-3 border-b border-gray-200">
-                <div class="flex items-center justify-around">
-                  <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $idx + 1 ?></p>
-                </div>
-              </td>
-              <td class="p-3 border-b border-gray-200">
-                <div class="flex items-center justify-around">
-                  <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $arr['id'][$idx] ?></p>
-                </div>
-              </td>
-              <td class="p-3 border-b border-gray-200">
-                <div class="flex items-center justify-around">
-                  <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $arr['phone_number'][$idx] ?></p>
-                </div>
-              </td>
-              <td class="p-3 border-b border-gray-200">
-                <div class="flex items-center justify-around">
-                  <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $arr['owner'][$idx] ?></p>
-                </div>
-              </td>
-              <td class="p-3 border-b border-gray-200">
-                <div class="flex items-center justify-center gap-4">
-                  <button class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium py-1 px-2 rounded">
-                    Edit
-                  </button>
-                  <button class="bg-red-500 hover:bg-red-700 text-white text-sm font-medium py-1 px-2 rounded">
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
-          <?php
-          }
-          ?>
+              <tr>
+                <td class="p-3 border-b border-gray-200">
+                  <div class="flex items-center justify-around">
+                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $idx + 1 ?></p>
+                  </div>
+                </td>
+                <td class="p-3 border-b border-gray-200">
+                  <div class="flex items-center justify-around">
+                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $arr['id'][$idx] ?></p>
+                  </div>
+                </td>
+                <td class="p-3 border-b border-gray-200">
+                  <div class="flex items-center justify-around">
+                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $arr['phone_number'][$idx] ?></p>
+                  </div>
+                </td>
+                <td class="p-3 border-b border-gray-200">
+                  <div class="flex items-center justify-around">
+                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $arr['owner'][$idx] ?></p>
+                  </div>
+                </td>
+                <td class="p-3 border-b border-gray-200">
+                  <div class="flex items-center justify-center gap-4">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium py-1 px-2 rounded">
+                      Edit
+                    </button>
+                    <button onclick="showDelButton(<?= $id ?>)" class="bg-red-500 hover:bg-red-700 text-white text-sm font-medium py-1 px-2 rounded">
+                      Delete
+                    </button>
+                    <div id="delbutton_<?= $id ?>" class="fixed left-0 top-0 bg-black bg-opacity-40 w-screen h-screen items-center justify-center opacity-0 hidden transition-opacity duration-500">
+                      <div class="bg-white rounded shadow-md p-8 w-[25%] gap-5 flex-col overflow-hidden">
+                        <div class="flex gap-3">
+                          <div class="bg-red-100 rounded-full text-red-600 min-w-10 h-10 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                            </svg>
+                          </div>
+                          <div class="flex-grow">
+                            <h1 class="font-bold text-lg mb-2 text-gray-700">Delete Contact?</h1>
+                            <p class="text-gray-600">Are you sure you want to delete this contact?</p>
+                          </div>
+                        </div>
+                        <div class=" mt-3 flex justify-end">
+                          <button onclick="hideDelButton(<?= $id ?>)" class="bg-white rounded px-4 py-2 mr-3 text-black cursor-pointer hover:bg-gray-300">Batal</button>
+                          <form class="flex" id="deleteForm_<?= $id ?>">
+                            <a href="" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded">Hapus</a>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <?php
+            }
+            ?>
         </tbody>
+      <?php
+          } else {
+      ?>
+        <tbody>
+          <tr>
+            <td colspan="4" class="px-6 py-4 text-[16px] font-medium text-[#37251b] text-center">Data Belum Ada...</td>
+          </tr>
+        </tbody>
+      <?php
+          }
+      ?>
       </table>
       <form action="insert.php" method="POST">
         <div class="flex items-center justify-center">
@@ -117,6 +166,43 @@ $arr = Contact::select();
       </form>
     </div>
   </div>
+
+  <script>
+    function showDelButton(id) {
+      console.log("ID received:", id);
+      let delbutton = document.getElementById('delbutton_' + id);
+      let deleteForm = delbutton.querySelector('#deleteForm_' + id);
+      deleteForm.href = "index.php?action=delete&id=" + id;
+
+      if (deleteForm) {
+        let deleteLink = deleteForm.querySelector('a');
+        if (deleteLink) {
+          deleteLink.href = "index.php?action=delete&id=" + id;
+          delbutton.classList.remove('hidden');
+          delbutton.classList.add('flex');
+          setTimeout(() => {
+            delbutton.classList.add('opacity-100');
+          }, 20);
+        } else {
+          console.log("Anchor element not found within deleteForm");
+        }
+      } else {
+        console.log("deleteForm not found");
+      }
+    }
+
+
+
+    function hideDelButton(id) {
+      let delbutton = document.getElementById('delbutton_' + id);
+      delbutton.classList.add('opacity-0')
+      setTimeout(() => {
+        delbutton.classList.add('hidden')
+        delbutton.classList.remove('flex')
+      }, 500);
+    }
+  </script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 </body>
 

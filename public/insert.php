@@ -1,12 +1,5 @@
 <?php
-require_once 'C:\laragon\www\ContactApp-PWEBPR-A-1034\app\Models\Contact.php';
-if (isset($_POST['submit'])) {
-    $id = ''; //Tidak diisi karena Auto_Increment.
-    $phone_number = $_POST['phone_number'];
-    $owner = $_POST['owner'];
-    $users_id = ''; //Tidak diisi karena Nanti digunakan untuk view masing-masing user.
-    Contact::insert($id, $phone_number, $owner, $users_id);
-  }
+require_once __DIR__ . '/../app/Models/Contact.php';
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +50,7 @@ if (isset($_POST['submit'])) {
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
                 <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Add Contact</h2>
             </div>
-            <form class="space-y-6" action="" method="POST">
+            <form class="space-y-6" action="index.php" method="POST">
                 <div>
                     <label for="phone_number" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
                     <div class="mt-2">
