@@ -19,6 +19,7 @@ class Contact
         }
         return $arr;
     }
+    
     static function insert($id, $phone_number, $owner, $users_id)
     {
         global $conn;
@@ -30,14 +31,17 @@ class Contact
         if ($result == true) {
             header("Location: index.php");
         } else {
-            $error = "Error deleting record: " . $conn->error;
+            $error = "Error reading data: " . $conn->error;
             header("insert.php");
             return $error;
         }
     }
+
     static function update()
     {
+        
     }
+
     static function delete($id)
     {
         global $conn;
@@ -46,30 +50,28 @@ class Contact
         $result->bind_param('i', $id);
 
         if ($result->execute()) {
-            $result->close(); // Close the prepared statement
+            $result->close();
             header("Location: index.php");
             exit();
-            // return "Record deleted successfully";
         } else {
-            $error = "Error deleting record: " . $conn->error;
-            $result->close(); // Close the prepared statement
+            $error = "Error deleting contact: " . $conn->error;
+            $result->close();
             return $error;
         }
     }
-    static function reset($id)
+    static function reset($id) //function untuk reset auto increment (belum terpakai)
     {
         global $conn;
         $sql = "ALTER TABLE contacts AUTO_INCREMENT = ?";
         $result = $conn->prepare($sql);
         $result->bind_param('i', $id);
         if ($result->execute()) {
-            $result->close(); // Close the prepared statement
+            $result->close();
             header("Location: index.php");
             exit();
-            // return "Record deleted successfully";
         } else {
-            $error = "Error deleting record: " . $conn->error;
-            $result->close(); // Close the prepared statement
+            $error = "Error reseting id: " . $conn->error;
+            $result->close();
             return $error;
         }
     }

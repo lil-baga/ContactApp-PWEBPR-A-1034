@@ -1,15 +1,6 @@
 <?php
 require_once __DIR__ . '/../app/Models/Contact.php';
 $arr = Contact::select();
-if (isset($_POST['submit'])) {
-  $id = ''; //Tidak diisi karena Auto_Increment.
-  $phone_number = $_POST['phone_number'];
-  $owner = $_POST['owner'];
-  $users_id = ''; //Tidak diisi karena Nanti digunakan untuk view masing-masing user.
-  $result = Contact::insert($id, $phone_number, $owner, $users_id);
-  echo $result;
-}
-
 if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
   $id = $_GET['id'];
 
@@ -110,13 +101,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
                   </div>
                 </td>
                 <td class="p-3 border-b border-gray-200">
-                  <div class="flex items-center justify-center gap-4">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium py-1 px-2 rounded">
-                      Edit
-                    </button>
-                    <button onclick="showDelButton(<?= $id ?>)" class="bg-red-500 hover:bg-red-700 text-white text-sm font-medium py-1 px-2 rounded">
-                      Delete
-                    </button>
+                  <div class="flex flex-row items-center justify-center">
+                    <div class="flex flex-row items-center justify-center gap-4">
+                      <a href="edit.php?id=<?= $id ?>" class="bg-blue-500 flex hover:bg-blue-700 text-white text-sm font-medium py-2 px-2 rounded">
+                        Edit
+                      </a>
+                      <button onclick="showDelButton(<?= $id ?>)" class="bg-red-500 hover:bg-red-700 text-white text-sm font-medium py-2 px-2 rounded">
+                        Delete
+                      </button>
+                    </div>
                     <div id="delbutton_<?= $id ?>" class="fixed left-0 top-0 bg-black bg-opacity-40 w-screen h-screen items-center justify-center opacity-0 hidden transition-opacity duration-500">
                       <div class="bg-white rounded shadow-md p-8 w-[25%] gap-5 flex-col overflow-hidden">
                         <div class="flex gap-3">
@@ -159,7 +152,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
       </table>
       <form action="insert.php" method="POST">
         <div class="flex items-center justify-center">
-          <button class="bg-green-500 flex mt-6 hover:bg-green-700 text-white text-sm font-medium py-1 px-2 rounded">
+          <button class="bg-green-500 flex mt-6 hover:bg-green-700 text-white text-sm font-medium py-2 px-2 rounded">
             Add Contact
           </button>
         </div>
