@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . '/../app/Models/Contact.php';
+require_once __DIR__ . '/../model/contact.php';
 if (isset($_POST['submit'])) {
     $id = ''; //Tidak diisi karena Auto_Increment.
     $phone_number = $_POST['phone_number'];
     $owner = $_POST['owner'];
     $users_id = ''; //Tidak diisi karena Nanti digunakan untuk view masing-masing user.
-    $result = Contact::insert($id, $phone_number, $owner, $users_id);
+    $result = Contact::create($id, $phone_number, $owner, $users_id);
     echo $result;
   }
 ?>
@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
     <div class="flex flex-row">
         <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-900 h-[100vh] w-full max-w-[20rem] p-4 shadow-xl shadow-gray-900/5">
             <div class="mb-2 p-4 flex flex-col items-center justify-center">
-                <img src="contact.png" class="w-42" alt="Logo">
+                <img src="public/contact.png" class="w-42" alt="Logo">
                 <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900">Welcome, User!</h5>
             </div>
             <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-900">
@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
                             <path fill-rule="evenodd" d="M6.912 3a3 3 0 00-2.868 2.118l-2.411 7.838a3 3 0 00-.133.882V18a3 3 0 003 3h15a3 3 0 003-3v-4.162c0-.299-.045-.596-.133-.882l-2.412-7.838A3 3 0 0017.088 3H6.912zm13.823 9.75l-2.213-7.191A1.5 1.5 0 0017.088 4.5H6.912a1.5 1.5 0 00-1.434 1.059L3.265 12.75H6.11a3 3 0 012.684 1.658l.256.513a1.5 1.5 0 001.342.829h3.218a1.5 1.5 0 001.342-.83l.256-.512a3 3 0 012.684-1.658h2.844z" clip-rule="evenodd"></path>
                         </svg>
-                    </div><a href="index.php">Contact Lists</a><div class="grid place-items-center ml-auto justify-self-end">
+                    </div><a href="<?= urlpath('home') ?>">Contact Lists</a><div class="grid place-items-center ml-auto justify-self-end">
                     </div>
                 </div>
                 <div role="button" tabindex="0" class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-[#8a4647] focus:bg-[#8a4647] active:bg-[#8a4647] hover:text-white focus:text-white active:text-white outline-none">
@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
                             <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v9a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM6.166 5.106a.75.75 0 010 1.06 8.25 8.25 0 1011.668 0 .75.75 0 111.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 011.06 0z" clip-rule="evenodd"></path>
                         </svg>
-                    </div><a href="login.php">Log Out</a>
+                    </div><a href="<?= urlpath('home') ?>">Log Out</a>
                 </div>
             </nav>
         </div>
@@ -58,7 +58,7 @@ if (isset($_POST['submit'])) {
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
                 <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Add Contact</h2>
             </div>
-            <form class="space-y-6" action="insert.php" method="POST">
+            <form class="space-y-6" action="<?= urlpath('add') ?>" method="POST">
                 <div>
                     <label for="phone_number" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
                     <div class="mt-2">
@@ -74,7 +74,7 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 <div>
-                    <button type="submit" name="submit" class="flex w-full justify-center rounded-md bg-[#8a4647] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#aa4647] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8a4647]">Tambahkan</button>
+                    <button type="submit" name="submit" class="flex w-full justify-center rounded-md bg-[#8a4647] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#aa4647] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8a4647]">Add Contact</button>
                 </div>
             </form>
         </div>

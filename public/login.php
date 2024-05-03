@@ -12,12 +12,12 @@
 <body class="h-full">
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img src="contact.png" class="w-42" alt="Logo">
+      <img src="public/contact.png" class="w-42" alt="Logo">
       <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Log in to your account</h2>
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" action="index.php" method="POST">
+      <form class="space-y-6" action="<?= urlpath('login') ?>" method="POST">
         <div>
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
           <div class="mt-2">
@@ -39,7 +39,7 @@
 
       <p class="mt-10 text-center text-sm text-gray-500">
         Not a member?
-        <a href="register.php" class="font-semibold leading-6 text-[#8a4647] hover:text-[#aa4647]">Register Now!</a>
+        <a class="font-semibold leading-6 text-[#8a4647] hover:text-[#aa4647]" href="<?= urlpath('register') ?>">Register Now!</a>
       </p>
     </div>
   </div>

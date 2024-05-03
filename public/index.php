@@ -1,14 +1,3 @@
-<?php
-require_once __DIR__ . '/../app/Models/Contact.php';
-$arr = Contact::select();
-if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
-  $id = $_GET['id'];
-
-  $result = Contact::delete($id);
-  echo $result;
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-white">
 
@@ -24,8 +13,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
   <div class="flex flex-row">
     <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-900 h-[100vh] w-full max-w-[20rem] p-4 shadow-xl shadow-gray-900/5">
       <div class="mb-2 p-4 flex flex-col items-center justify-center">
-        <img src="contact.png" class="w-42" alt="Logo">
-        <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900">Welcome, User!</h5>
+        <img src="public/contact.png" class="w-42" alt="Logo">
+        <h5 class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900"><?= $_SESSION['user']['name'] ?></h5>
       </div>
       <nav class="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-900">
         <div role="button" tabindex="0" class="flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-[#8a4647] focus:bg-[#8a4647] active:bg-[#8a4647] hover:text-white focus:text-white active:text-white outline-none">
@@ -33,7 +22,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
               <path fill-rule="evenodd" d="M6.912 3a3 3 0 00-2.868 2.118l-2.411 7.838a3 3 0 00-.133.882V18a3 3 0 003 3h15a3 3 0 003-3v-4.162c0-.299-.045-.596-.133-.882l-2.412-7.838A3 3 0 0017.088 3H6.912zm13.823 9.75l-2.213-7.191A1.5 1.5 0 0017.088 4.5H6.912a1.5 1.5 0 00-1.434 1.059L3.265 12.75H6.11a3 3 0 012.684 1.658l.256.513a1.5 1.5 0 001.342.829h3.218a1.5 1.5 0 001.342-.83l.256-.512a3 3 0 012.684-1.658h2.844z" clip-rule="evenodd"></path>
             </svg>
-          </div><a href="index.php">Contact Lists</a>
+          </div><a href="<?= urlpath('home') ?>">Contact Lists</a>
           <div class="grid place-items-center ml-auto justify-self-end">
           </div>
         </div>
@@ -49,7 +38,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="h-5 w-5">
               <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v9a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM6.166 5.106a.75.75 0 010 1.06 8.25 8.25 0 1011.668 0 .75.75 0 111.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 011.06 0z" clip-rule="evenodd"></path>
             </svg>
-          </div><a href="login.php">Log Out</a>
+          </div><a href="<?= urlpath('logout') ?>">Log Out</a>
         </div>
       </nav>
     </div>
@@ -76,41 +65,44 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
           </tr>
         </thead>
         <tbody>
-          <?php if (!empty($arr['id'])) {
-            foreach ($arr['id'] as $idx => $id) {
-          ?>
+          <?php if (empty($contacts)): ?>
+            <tr>
+              <td colspan="5">No contacts found.</td>
+            </tr>
+          <?php else: ?>
+            <?php foreach ($contacts as $index => $contact) : ?>
               <tr>
                 <td class="p-3 border-b border-gray-200">
                   <div class="flex items-center justify-around">
-                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $idx + 1 ?></p>
+                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?php echo $index + 1; ?></p>
                   </div>
                 </td>
                 <td class="p-3 border-b border-gray-200">
                   <div class="flex items-center justify-around">
-                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $arr['id'][$idx] ?></p>
+                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?php echo $contact['id']; ?></p>
                   </div>
                 </td>
                 <td class="p-3 border-b border-gray-200">
                   <div class="flex items-center justify-around">
-                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $arr['phone_number'][$idx] ?></p>
+                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?php echo $contact['phone_number']; ?></p>
                   </div>
                 </td>
                 <td class="p-3 border-b border-gray-200">
                   <div class="flex items-center justify-around">
-                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?= $arr['owner'][$idx] ?></p>
+                    <p class="block antialiased font-sans text-sm leading-normal text-gray-900 font-normal"><?php echo $contact['owner']; ?></p>
                   </div>
                 </td>
                 <td class="p-3 border-b border-gray-200">
                   <div class="flex flex-row items-center justify-center">
                     <div class="flex flex-row items-center justify-center gap-4">
-                      <a href="edit.php?id=<?= $id ?>" class="bg-blue-500 flex hover:bg-blue-700 text-white text-sm font-medium py-2 px-2 rounded">
+                      <a href="<?= urlpath('edit') ?>" class="bg-blue-500 flex hover:bg-blue-700 text-white text-sm font-medium py-2 px-2 rounded">
                         Edit
                       </a>
-                      <button onclick="showDelButton(<?= $id ?>)" class="bg-red-500 hover:bg-red-700 text-white text-sm font-medium py-2 px-2 rounded">
+                      <button onclick="showDelButton(<?php echo $contact['id']; ?>)" class="bg-red-500 hover:bg-red-700 text-white text-sm font-medium py-2 px-2 rounded">
                         Delete
                       </button>
                     </div>
-                    <div id="delbutton_<?= $id ?>" class="fixed left-0 top-0 bg-black bg-opacity-40 w-screen h-screen items-center justify-center opacity-0 hidden transition-opacity duration-500">
+                    <div id="delbutton_<?php echo $contact['id']; ?>" class="fixed left-0 top-0 bg-black bg-opacity-40 w-screen h-screen items-center justify-center opacity-0 hidden transition-opacity duration-500">
                       <div class="bg-white rounded shadow-md p-8 w-[25%] gap-5 flex-col overflow-hidden">
                         <div class="flex gap-3">
                           <div class="bg-red-100 rounded-full text-red-600 min-w-10 h-10 flex items-center justify-center">
@@ -124,8 +116,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
                           </div>
                         </div>
                         <div class=" mt-3 flex justify-end">
-                          <button onclick="hideDelButton(<?= $id ?>)" class="bg-white rounded px-4 py-2 mr-3 text-black cursor-pointer hover:bg-gray-300">Batal</button>
-                          <form class="flex" id="deleteForm_<?= $id ?>">
+                          <button onclick="hideDelButton(<?php echo $contact['id']; ?>)" class="bg-white rounded px-4 py-2 mr-3 text-black cursor-pointer hover:bg-gray-300">Batal</button>
+                          <form class="flex" id="deleteForm_<?php echo $contact['id']; ?>">
                             <a href="" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded">Hapus</a>
                           </form>
                         </div>
@@ -134,23 +126,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
                   </div>
                 </td>
               </tr>
-            <?php
-            }
-            ?>
+            <?php endforeach; ?>
+          <?php endif; ?>
         </tbody>
-      <?php
-          } else {
-      ?>
-        <tbody>
-          <tr>
-            <td colspan="4" class="px-6 py-4 text-[16px] font-medium text-[#37251b] text-center">Data Belum Ada...</td>
-          </tr>
-        </tbody>
-      <?php
-          }
-      ?>
       </table>
-      <form action="insert.php" method="POST">
+      <form action="<?= urlpath('add') ?>" method="GET">
         <div class="flex items-center justify-center">
           <button class="bg-green-500 flex mt-6 hover:bg-green-700 text-white text-sm font-medium py-2 px-2 rounded">
             Add Contact
