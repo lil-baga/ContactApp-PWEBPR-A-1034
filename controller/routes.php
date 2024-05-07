@@ -32,4 +32,4 @@ route('add', 'get', 'ContactController::add');
 route('edit', 'get', 'ContactController::edit');
 route('add', 'post', 'ContactController::create');
 route('edit', 'post', 'ContactController::update');
-route('delete', 'post', 'ContactController::delete');
+route('delete/{id}', 'post', 'ContactController::delete');

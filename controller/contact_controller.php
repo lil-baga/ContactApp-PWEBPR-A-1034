@@ -74,7 +74,7 @@ class ContactController
         }
     }
 
-    static function deleteContact()
+    static function delete()
     {
         if (!isset($_SESSION['user'])) {
             header('Location: ' . BASEURL . 'login?auth=false');
