@@ -5,11 +5,11 @@ include_once 'config/static.php';
 
 class UserController {
     static function login_index() {
-        view('login');
+        view('auth/login');
     }
 
     static function register_index() {
-        view('register');
+        view('auth/register');
     }
 
     static function login() {
@@ -22,10 +22,10 @@ class UserController {
         if ($user) {
             unset($user['password']);
             $_SESSION['user'] = $user;
-            header('Location: '.BASEURL.'home');
+            header('Location: '.BASEURL.'dashboard');
         }
         else {
-            header('Location: '.BASEURL.'login?failed=true');
+            header('Location: '.BASEURL.'login');
         }
     }
 
@@ -42,7 +42,7 @@ class UserController {
             header('Location: '.BASEURL.'login');
         }
         else {
-            header('Location: '.BASEURL.'register?failed=true');
+            header('Location: '.BASEURL.'register');
         }
     }
 
